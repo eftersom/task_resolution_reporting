@@ -29,6 +29,7 @@ services:
       - "${FORWARD_DB_PORT:-3307}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./docker/mysql:/docker-entrypoint-initdb.d
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
