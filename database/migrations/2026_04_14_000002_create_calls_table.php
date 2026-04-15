@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('calls', function (Blueprint $table) {
             $table->id();
             $table->text('notes')->nullable();
-            $table->string('stage');
+            $table->string('stage')->nullable();
             $table->timestamps();
         });
     }

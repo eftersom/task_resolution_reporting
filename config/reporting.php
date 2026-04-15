@@ -6,7 +6,7 @@ return [
 
     'max_range_days' => 366,
 
-    'allowed_params' => ['startDate', 'endDate'],
+    'allowed_params' => ['from', 'to'],
 
     'excluded_stages' => ['draft', 'archived'],
 

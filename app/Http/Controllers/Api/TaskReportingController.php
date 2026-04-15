@@ -22,8 +22,8 @@ class TaskReportingController extends Controller
      */
     public function resolutionTypeSummary(TaskResolutionReportRequest $request): JsonResponse
     {
-        $startDate = $request->validated('startDate');
-        $endDate = $request->validated('endDate');
+        $startDate = $request->validated('from');
+        $endDate = $request->validated('to');
 
         $result = $this->reportingService->getResolutionTypeSummary($startDate, $endDate);
 

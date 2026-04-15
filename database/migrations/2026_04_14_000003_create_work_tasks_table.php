@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('call_id')->constrained('calls')->cascadeOnDelete();
             $table->foreignId('resolution_type_id')->nullable()->constrained('resolution_types')->nullOnDelete();
+            $table->dateTime('work_started_at')->nullable();
             $table->dateTime('work_completed_at')->nullable();
             $table->timestamps();
         });

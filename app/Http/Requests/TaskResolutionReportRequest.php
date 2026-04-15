@@ -15,8 +15,8 @@ class TaskResolutionReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'startDate' => ['required', 'date', 'date_format:Y-m-d'],
-            'endDate' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:startDate'],
+            'from' => ['required', 'date', 'date_format:Y-m-d'],
+            'to' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:from'],
         ];
     }
 
@@ -43,8 +43,8 @@ class TaskResolutionReportRequest extends FormRequest
                 }
 
                 // prevent users from grabbing too much data can ultimately store this in env
-                $startDate = new \DateTimeImmutable($this->input('startDate'));
-                $endDate = new \DateTimeImmutable($this->input('endDate'));
+                $startDate = new \DateTimeImmutable($this->input('from'));
+                $endDate = new \DateTimeImmutable($this->input('to'));
                 $days = $startDate->diff($endDate)->days;
 
                 $maxDays = config('reporting.max_range_days');
@@ -62,13 +62,13 @@ class TaskResolutionReportRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'startDate.required' => 'A start date is required.',
-            'startDate.date' => 'Start date must be a valid date.',
-            'startDate.date_format' => 'Start date must be in YYYY-MM-DD format.',
-            'endDate.required' => 'An end date is required.',
-            'endDate.date' => 'End date must be a valid date.',
-            'endDate.date_format' => 'End date must be in YYYY-MM-DD format.',
-            'endDate.after_or_equal' => 'End date must be on or after the start date.'
+            'from.required' => 'From date is required.',
+            'from.date' => 'From date must be a valid date.',
+            'from.date_format' => 'From date must be in YYYY-MM-DD format.',
+            'to.required' => 'To date is required.',
+            'to.date' => 'To date must be a valid date.',
+            'to.date_format' => 'To date must be in YYYY-MM-DD format.',
+            'to.after_or_equal' => 'To date must be on or after the from date.'
         ];
     }
 }
