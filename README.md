@@ -5,7 +5,7 @@ This is a Laravel reporting API that focuses on work task resolution types (curr
 For this exercise I have decided to ensure that the end user has limits on how many times they can access the end point within a specific timeframe (30 calls per minute maximum), this would for example prevent denial of service attacks or for example to prevent rogue AI agents calling the endpoint that are stuck in loops from accessing the API endlessly (a new common issue when external devs are working with endpoints). 
 
 ```
-Route::prefix('reporting')
+Route::prefix('reports')
     ->middleware('throttle:30,1')
     ->group(function () {
         Route::get('work-tasks/resolutions', [TaskReportingController::class, 'resolutionTypeSummary']);
@@ -32,7 +32,6 @@ This could be setup using envs for example to increase or decrease limits withou
 ```
 docker compose build
 docker compose up -d
-docker compose exec app php artisan migrate:fresh --seed
 ```
 
 The app will then be available at `http://localhost:8080`.
@@ -44,7 +43,7 @@ docker compose down
 ```
 
 ## API
-### GET `/api/reporting/work-tasks/resolutions`
+### GET `/api/reports/work-tasks/resolutions`
 
 This returns JSON detailing resolution types with work type counts within a specific date range.
 
@@ -52,13 +51,13 @@ This returns JSON detailing resolution types with work type counts within a spec
 
 | Parameters  | Is Needed? | Format       | Description         |
 |-------------|------------|--------------|---------------------|
-| startDate   | Yes        | YYYY-MM-DD   | Start of date range |
-| endDate     | Yes        | YYYY-MM-DD   | End of date range   |
+| from        | Yes        | YYYY-MM-DD   | Start of date range |
+| to          | Yes        | YYYY-MM-DD   | End of date range   |
 
 **For example...**
 
 ```
-GET /api/reporting/work-tasks/resolutions?startDate=2026-01-01&endDate=2026-04-14
+GET /api/reports/work-tasks/resolutions?from=2026-01-01&to=2026-04-14
 ```
 
 **Will provide something like...**
@@ -138,7 +137,7 @@ Reporting settings can be found within `config/reporting.php`:
 |--------------------|----------------------------------|-------------------------------------|
 | cache_ttl          | 60 (env `REPORTING_CACHE_TTL`)   | Cache duration in seconds           |
 | max_range_days     | 366                              | Max allowed date range span         |
-| allowed_params     | ['startDate', 'endDate']         | Accepted query parameters           |
+| allowed_params     | ['from', 'to']                   | Accepted query parameters           |
 | excluded_stages    | ['draft', 'archived']            | Call stages excluded from reporting |
 
 ## Database Connection (external clients)
